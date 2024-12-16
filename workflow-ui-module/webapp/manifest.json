@@ -1,0 +1,322 @@
+{
+    "_version": "1.26.0",
+    "sap.app": {
+        "id": "error.workflowuimodule",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.8.4",
+            "toolsId": "87674aea-2949-48f1-a27f-985a523d83d8"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "dependencies": {
+            "minUI5Version": "1.82.2",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.f": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.table": {},
+                "sap.ushell": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "error.workflowuimodule.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {}
+            }
+
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "error.workflowuimodule.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false
+            },
+            "routes": [
+                {
+                    "name": "RouteorderApprovalForm",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetorderApprovalForm"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetorderApprovalForm": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "orderApprovalForm",
+                    "viewName": "orderApprovalForm"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "error.workflowuimodule.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        }
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "error"
+    },
+    "sap.bpa.task": {
+    "_version": "1.0.0",
+    "outcomes": [
+        {
+            "id": "approve",
+            "label": "Approve"
+        },
+        {
+            "id": "reject",
+            "label": "Reject"
+        }
+    ],
+    "inputs": {
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "title": "input",
+        "type": "object",
+        "required": [
+            "totalprice",
+            "requestno",
+            "requestdesc",
+            "requestby",
+            "requestid",
+            "requestitem"      
+        ],
+        "properties": {
+            "totalprice": {
+                "type": "number",
+                "title": "Total Price",
+                "description": "Total price of the request"
+            },
+            "requestno": {
+                "type": "number",
+                "title": "Request Number",
+                "description": "Unique identifier for the request"
+            },
+            "requestdesc": {
+                "type": "string",
+                "title": "Request Description",
+                "description": "Description of the request"
+            },
+            "requestby": {
+                "type": "string",
+                "title": "Requested By",
+                "description": "Name of the requester"
+            },
+            "requestid": {
+                "type": "number",
+                "title": "Request ID",
+                "description": "ID of the request"
+            },
+            "requestitem": {
+                "type": "array",
+                "title": "Request Items",
+                "description": "List of items in the request",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "ItemNo": {
+                            "type": "number",
+                            "title": "Item Number",
+                            "description": "Unique number for the item"
+                        },
+                        "ItemDesc": {
+                            "type": "string",
+                            "title": "Item Description",
+                            "description": "Description of the item"
+                        },
+                        "Quantity": {
+                            "type": "number",
+                            "title": "Quantity",
+                            "description": "Quantity of the item"
+                        },
+                        "ItemPrice": {
+                            "type": "number",
+                            "title": "Item Price",
+                            "description": "Price of the item"
+                        },
+                        "Material": {
+                            "type": "string",
+                            "title": "Material",
+                            "description": "Material of the item"
+                        },
+                        "Plant": {
+                            "type": "string",
+                            "title": "Plant",
+                            "description": "Plant location"
+                        }
+                    },
+                    "required": [
+                        "ItemNo",
+                        "ItemDesc",
+                        "Quantity",
+                        "ItemPrice",
+                        "Material",
+                        "Plant"
+                    ]
+                }
+            }
+        }
+    },
+    "outputs": {
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "title": "output",
+        "type": "object",
+        "required": [
+            "comment",
+            "totalprice",
+            "requestno",
+            "requestdesc",
+            "requestby",
+            "requestid",
+            "requestitem"
+                ],
+        "properties": {
+            "comment": {
+                "type": "string",
+                "title": "Comment",
+                "description": "Comment to buyer"
+            },
+            "totalprice": {
+                "type": "number",
+                "title": "Total Price",
+                "description": "Total price of the request"
+            },
+            "requestno": {
+                "type": "number",
+                "title": "Request Number",
+                "description": "Unique identifier for the request"
+            },
+            "requestdesc": {
+                "type": "string",
+                "title": "Request Description",
+                "description": "Description of the request"
+            },
+            "requestby": {
+                "type": "string",
+                "title": "Requested By",
+                "description": "Name of the requester"
+            },
+            "requestid": {
+                "type": "number",
+                "title": "Request ID",
+                "description": "ID of the request"
+            },
+            "requestitem": {
+                "type": "array",
+                "title": "Request Items",
+                "description": "List of items in the request",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "ItemNo": {
+                            "type": "number",
+                            "title": "Item Number",
+                            "description": "Unique number for the item"
+                        },
+                        "ItemDesc": {
+                            "type": "string",
+                            "title": "Item Description",
+                            "description": "Description of the item"
+                        },
+                        "Quantity": {
+                            "type": "number",
+                            "title": "Quantity",
+                            "description": "Quantity of the item"
+                        },
+                        "ItemPrice": {
+                            "type": "number",
+                            "title": "Item Price",
+                            "description": "Price of the item"
+                        },
+                        "Material": {
+                            "type": "string",
+                            "title": "Material",
+                            "description": "Material of the item"
+                        },
+                        "Plant": {
+                            "type": "string",
+                            "title": "Plant",
+                            "description": "Plant location"
+                        }
+                    },
+                    "required": [
+                        "ItemNo",
+                        "ItemDesc",
+                        "Quantity",
+                        "ItemPrice",
+                        "Material",
+                        "Plant"
+                    ]
+                }
+            }
+        }
+    },
+    "category": "approval"
+}
+}

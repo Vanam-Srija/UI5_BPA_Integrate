@@ -1,0 +1,83 @@
+<mvc:View controllerName="error.workflowuimodule.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:smartForm="sap.ui.comp.smartform"
+    xmlns:smartField="sap.ui.comp.smartfield"
+    xmlns="sap.m">
+    <App id="app1">
+        <Page id="scroll">
+            <content>
+                <form:SimpleForm id="request-information-form" editable="true" layout="ResponsiveGridLayout" singleContainerFullSize="false">
+                    <form:content>
+                        <core:Title id="request-information-heading" text="A new request has been received. Please review and confirm whether the requirements can be met."/>
+                       
+                        <Label id="total-price-label" text="Total Price" labelFor="total-price-field"/>
+                        <Input id="total-price-field" value="{context>/totalprice}" editable="true"/>
+                       
+                        <Label id="request-no-label" text="Request Number" labelFor="request-no-field"/>
+                        <Input id="request-no-field" value="{context>/requestno}" editable="true"/>
+                       
+                        <Label id="request-desc-label" text="Request Description" labelFor="request-desc-field"/>
+                        <Input id="request-desc-field" value="{context>/requestdesc}" editable="true"/>
+                       
+                        <Label id="requested-by-label" text="Requested By" labelFor="requested-by-field"/>
+                        <Input id="requested-by-field" value="{context>/requestby}" editable="true"/>
+                       
+                        <Label id="request-id-label" text="Request ID" labelFor="request-id-field"/>
+                        <Input id="request-id-field" value="{context>/requestid}" editable="true"/>
+                       
+                        <core:Title id="request-items-heading" text="Request Items"/>
+                        <Table id="request-items-table" inset="false" items="{context>/requestitem}">
+                            <columns>
+                                <Column id="item-number-column">
+                                    <Text id="item-number-column-text" text="Item Number"/>
+                                </Column>
+                                <Column id="item-description-column">
+                                    <Text id="item-description-column-text" text="Item Description"/>
+                                </Column>
+                                <Column id="quantity-column">
+                                    <Text id="quantity-column-text" text="Quantity"/>
+                                </Column>
+                                <Column id="item-price-column">
+                                    <Text id="item-price-column-text" text="Item Price"/>
+                                </Column>
+                                <Column id="material-column">
+                                    <Text id="material-column-text" text="Material"/>
+                                </Column>
+                                <Column id="plant-column">
+                                    <Text id="plant-column-text" text="Plant"/>
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem id="request-item-row">
+                                    <cells>
+                                        <Input id="item-number-cell-input" value="{context>ItemNo}" type="Number"/>
+                                        <Input id="item-description-cell-input" value="{context>ItemDesc}" />
+                                        <Input id="quantity-cell-input" value="{context>Quantity}" type="Number" />
+                                        <Input id="item-price-cell-input" value="{context>ItemPrice}" type="Number" />
+                                        <Input id="material-cell-input" value="{context>Material}" />
+                                        <Input id="plant-cell-input" value="{context>Plant}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </form:content>
+                </form:SimpleForm>
+ 
+                <html:hr></html:hr>
+ 
+            <FlexBox id="comment-wrapper" direction="Column" class="sapUiSmallMargin" width="auto">
+            <CheckBox id="Ack" text="I acknowledge that we have received your request and will process it based on the availability"/>
+            <Label id="comment-label" text="Comment"/>
+            <TextArea id="comment-field" showExceededText="true" maxLength="1000" width="100%" height="120px" value="{context>/comment}"/>
+   
+            </FlexBox>
+            </content>
+        </Page>
+    </App>
+</mvc:View>
+ 

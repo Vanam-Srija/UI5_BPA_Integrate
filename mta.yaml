@@ -1,0 +1,92 @@
+_schema-version: "3.2"
+ID: error
+version: 0.0.1
+modules:
+- name: error-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: error-destination-service
+    parameters:
+      content-target: true
+  - name: error_html_repo_host
+    parameters:
+      service-key:
+        name: error_html_repo_host-key
+  - name: uaa_error
+    parameters:
+      service-key:
+        name: uaa_error-key
+  parameters:
+    content:
+      subaccount:
+        destinations:
+        - Name: error_error_html_repo_host
+          ServiceInstanceName: error-html5-app-host-service
+          ServiceKeyName: error_html_repo_host-key
+          sap.cloud.service: error
+        - Authentication: OAuth2UserTokenExchange
+          Name: error_uaa_error
+          ServiceInstanceName: error-xsuaa-service
+          ServiceKeyName: uaa_error-key
+          sap.cloud.service: error
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: error-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: error_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - errorworkflowuimodule.zip
+      name: errorworkflowuimodule
+      target-path: resources/
+- name: errorworkflowuimodule
+  type: html5
+  path: workflow-ui-module
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: error-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        subaccount:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: error-destination-service
+    service-plan: lite
+- name: error_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: error-html5-app-host-service
+    service-plan: app-host
+- name: uaa_error
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: error-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
